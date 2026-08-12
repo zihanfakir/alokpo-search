@@ -110,6 +110,7 @@ body.searched .header {
     text-align: left;
     display: flex;
     align-items: center;
+    align-self: center;
 }
 
 .main-logo {
@@ -143,6 +144,7 @@ body.searched .search-section {
     grid-area: search;
     max-width: 650px;
     margin-bottom: 0;
+    align-self: center;
 }
 
 body.searched #resultsContainer {

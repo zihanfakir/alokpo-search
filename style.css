@@ -148,6 +148,7 @@ body.searched .search-section {
     max-width: 650px;
     margin-bottom: 0;
     align-self: center;
+    justify-self: start;
 }
 
 body.searched .results-container {
@@ -155,10 +156,20 @@ body.searched .results-container {
     grid-row: 2;
     max-width: 650px;
     width: 100%;
+    justify-self: start;
+}
+
+body.searched #loader {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    justify-self: center;
+    margin-top: 2rem;
 }
 
 
 .search-box {
+    width: 100%;
     display: flex;
     align-items: center;
     background: var(--glass-bg);

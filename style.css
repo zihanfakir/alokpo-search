@@ -87,7 +87,7 @@ body {
 .header {
     text-align: center;
     margin-top: 10vh;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0;
     transition: margin-top 0.4s ease-in-out;
 }
 
@@ -100,14 +100,13 @@ body {
     max-width: 500px;
     height: auto;
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: -10rem;
     display: inline-block;
     mix-blend-mode: screen;
 }
 
 .subtitle {
-    color: var(--text-muted);
-    font-size: 1rem;
+    display: none;
 }
 
 /* Search Box (Glassmorphism) */

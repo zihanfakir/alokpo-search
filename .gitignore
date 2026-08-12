@@ -1,0 +1,4 @@
+backend/
+searxng-render/
+node_modules/
+.DS_Store

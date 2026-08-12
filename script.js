@@ -35,9 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // IMPORTANT: Replace 'YOUR-APP-NAME' with your actual Render backend URL
-    const SEARXNG_RENDER_URL = 'https://YOUR-APP-NAME.onrender.com';
-    const BACKEND_URL = `https://corsproxy.io/?${encodeURIComponent(SEARXNG_RENDER_URL)}`;
+    // Use the custom backend URL provided by the user
+    const BACKEND_URL = 'https://alokpo-backend.onrender.com';
     
     // Suggestions Logic
     const suggestionsBox = document.getElementById('suggestionsBox');

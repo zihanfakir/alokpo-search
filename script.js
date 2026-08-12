@@ -117,33 +117,20 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.classList.remove('hidden');
 
         try {
-            // MOCK DATA: If the user hasn't set their backend URL yet, show a preview of the UI!
+            // Fallback to Wikipedia Search API so the search engine actually works without setting up a backend!
             if (BACKEND_URL.includes('YOUR-APP-NAME')) {
-                // Simulate network delay for the spinner
-                await new Promise(resolve => setTimeout(resolve, 800));
+                const wikiRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&utf8=&format=json&origin=*`);
+                if (!wikiRes.ok) throw new Error("Wikipedia API failed");
+                const wikiData = await wikiRes.json();
                 
-                const mockData = {
-                    results: [
-                        {
-                            title: "Meta Search Engine UI Preview",
-                            url: "https://github.com/yourusername/my-meta-search",
-                            content: "This is a preview of how your search results will look! It features a clean, minimalist design with premium dark mode aesthetics and glassmorphism."
-                        },
-                        {
-                            title: "Render - Cloud Hosting for Developers",
-                            url: "https://render.com",
-                            content: "Deploy your SearXNG backend here for free. Render is a unified cloud to build and run all your apps and websites with free TLS certificates."
-                        },
-                        {
-                            title: "SearXNG: Privacy-respecting metasearch engine",
-                            url: "https://docs.searxng.org",
-                            content: "SearXNG is a free internet metasearch engine which aggregates results from various search services and databases. Users are neither tracked nor profiled."
-                        }
-                    ]
-                };
+                const results = wikiData.query.search.map(item => ({
+                    title: item.title,
+                    url: `https://en.wikipedia.org/?curid=${item.pageid}`,
+                    content: item.snippet.replace(/<\/?[^>]+(>|$)/g, "") // strip HTML tags
+                }));
                 
                 loader.classList.add('hidden');
-                renderResults(mockData.results);
+                renderResults(results);
                 return;
             }
 

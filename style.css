@@ -159,6 +159,12 @@ body {
     z-index: 100;
     max-height: 350px;
     overflow-y: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.suggestions-box::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
 }
 
 .suggestions-box.hidden {

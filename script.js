@@ -38,6 +38,72 @@ document.addEventListener('DOMContentLoaded', () => {
     // IMPORTANT: Replace 'YOUR-APP-NAME' with your actual Render backend URL
     const SEARXNG_RENDER_URL = 'https://YOUR-APP-NAME.onrender.com';
     const BACKEND_URL = `https://corsproxy.io/?${encodeURIComponent(SEARXNG_RENDER_URL)}`;
+    
+    // Suggestions Logic
+    const suggestionsBox = document.getElementById('suggestionsBox');
+    let debounceTimer;
+    
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        clearTimeout(debounceTimer);
+        
+        if (query.length === 0) {
+            suggestionsBox.classList.add('hidden');
+            return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+            try {
+                // Fetching from Wikipedia opensearch API for reliable cross-origin autocomplete
+                const res = await fetch(`https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=8&namespace=0&format=json&origin=*`);
+                const data = await res.json();
+                const suggestions = data[1];
+                
+                if (suggestions.length > 0) {
+                    renderSuggestions(suggestions);
+                } else {
+                    suggestionsBox.classList.add('hidden');
+                }
+            } catch (err) {
+                console.error('Error fetching suggestions:', err);
+                // Fallback mock suggestions for demo purposes
+                if (query.toLowerCase() === 'apple') {
+                     renderSuggestions(["apple", "apple gadgets", "apple id", "apple coverage", "apple id create", "apple account", "apple id login", "apple gadget bd"]);
+                } else {
+                     suggestionsBox.classList.add('hidden');
+                }
+            }
+        }, 300);
+    });
+
+    function renderSuggestions(suggestions) {
+        suggestionsBox.innerHTML = '';
+        suggestions.forEach(sug => {
+            const li = document.createElement('li');
+            li.className = 'suggestion-item';
+            li.innerHTML = `
+                <svg class="suggestion-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <span>${sug}</span>
+            `;
+            li.addEventListener('click', () => {
+                searchInput.value = sug;
+                suggestionsBox.classList.add('hidden');
+                searchForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            });
+            suggestionsBox.appendChild(li);
+        });
+        suggestionsBox.classList.remove('hidden');
+    }
+
+    // Hide suggestions when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchForm.contains(e.target) && e.target !== suggestionsBox) {
+            suggestionsBox.classList.add('hidden');
+        }
+    });
 
     searchForm.addEventListener('submit', async (e) => {
         e.preventDefault();

@@ -141,6 +141,51 @@ body {
     flex-shrink: 0;
 }
 
+/* Suggestions Box */
+.suggestions-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    list-style: none;
+    padding: 0.5rem 0;
+    z-index: 100;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.suggestions-box.hidden {
+    display: none;
+}
+
+.suggestion-item {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+    background: rgba(100, 100, 100, 0.1);
+}
+
+.suggestion-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    color: var(--text-muted);
+}
+
 #searchInput {
     flex-grow: 1;
     background: transparent;

@@ -54,7 +54,7 @@
         </header>
 
         <!-- Search Area -->
-        <section class="search-section">
+        <section class="search-section" style="position: relative;">
             <form id="searchForm" class="search-box">
                 <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -63,6 +63,7 @@
                 <input type="text" id="searchInput" placeholder="Search the web without being tracked..." autocomplete="off" required>
                 <button type="submit" class="search-button">Search</button>
             </form>
+            <ul id="suggestionsBox" class="suggestions-box hidden"></ul>
         </section>
 
         <!-- Loading State -->

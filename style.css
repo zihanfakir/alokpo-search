@@ -96,9 +96,8 @@ body {
 }
 
 .main-logo {
-    width: 80%; /* Takes up 80% of the container width */
-    max-width: 600px; /* Cap the max width */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 350px;
+    height: auto;
     margin-top: 1rem;
     margin-bottom: 1rem;
     display: inline-block;

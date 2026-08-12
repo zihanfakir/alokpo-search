@@ -98,7 +98,7 @@ body {
 .main-logo {
     max-width: 100%;
     height: auto;
-    max-height: 90px;
+    max-height: 300px;
     margin-top: 1rem;
     margin-bottom: 1rem;
     display: inline-block;

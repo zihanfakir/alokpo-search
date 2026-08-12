@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debounceTimer = setTimeout(async () => {
             try {
-                // Fetching from Wikipedia opensearch API for reliable cross-origin autocomplete
-                const res = await fetch(`https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=8&namespace=0&format=json&origin=*`);
+                // Fetching from Google Suggest API via corsproxy for accurate Google autocomplete
+                const res = await fetch(`https://corsproxy.io/?https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}`);
                 const data = await res.json();
                 const suggestions = data[1];
                 

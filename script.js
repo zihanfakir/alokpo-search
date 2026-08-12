@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (theme === 'dark') {
             themeIconSun.classList.add('hidden');
             themeIconMoon.classList.remove('hidden');
-            if (mainLogo) mainLogo.src = 'Dark%20mod.svg';
+            if (mainLogo) mainLogo.src = 'dark_mod.svg';
         } else {
             themeIconSun.classList.remove('hidden');
             themeIconMoon.classList.add('hidden');
-            if (mainLogo) mainLogo.src = 'Ligth%20mod.svg';
+            if (mainLogo) mainLogo.src = 'light_mod.svg';
         }
     }
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // MOCK DATA: If the user hasn't set their backend URL yet, show a preview of the UI!
-            if (BACKEND_URL.includes('your-searxng-backend')) {
+            if (BACKEND_URL.includes('YOUR-APP-NAME')) {
                 // Simulate network delay for the spinner
                 await new Promise(resolve => setTimeout(resolve, 800));
                 

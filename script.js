@@ -53,10 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debounceTimer = setTimeout(async () => {
             try {
-                // Fetching from Google Suggest API via corsproxy for accurate Google autocomplete
-                const res = await fetch(`https://corsproxy.io/?https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}`);
-                const data = await res.json();
-                const suggestions = data[1];
+                // Fetching suggestions directly from your own SearXNG backend (more reliable)
+                const res = await fetch(`${BACKEND_URL}/autocompleter?q=${encodeURIComponent(query)}`);
+                const suggestions = await res.json();
                 
                 if (suggestions.length > 0) {
                     renderSuggestions(suggestions);

@@ -89,9 +89,6 @@ body.searched .container {
     max-width: 1200px;
     width: 100%;
     grid-template-columns: 140px minmax(auto, 650px);
-    grid-template-areas: 
-        "logo search"
-        ". results";
     justify-content: center;
     gap: 1rem 2rem;
     align-items: start;
@@ -107,7 +104,8 @@ body.searched .container {
 }
 
 body.searched .header {
-    grid-area: logo;
+    grid-column: 1;
+    grid-row: 1;
     margin-top: 0;
     text-align: right;
     display: flex;
@@ -144,15 +142,19 @@ body.searched .main-logo {
 }
 
 body.searched .search-section {
-    grid-area: search;
+    grid-column: 2;
+    grid-row: 1;
     width: 100%;
     max-width: 650px;
     margin-bottom: 0;
     align-self: center;
 }
 
-body.searched #resultsContainer {
-    grid-area: results;
+body.searched .results-container {
+    grid-column: 2;
+    grid-row: 2;
+    max-width: 650px;
+    width: 100%;
 }
 
 

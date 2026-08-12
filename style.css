@@ -344,10 +344,25 @@ body.searched #loader {
     border-color: rgba(255, 255, 255, 0.15);
 }
 
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.result-favicon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: white;
+    padding: 2px;
+}
+
 .result-url {
     font-size: 0.85rem;
     color: var(--text-muted);
-    margin-bottom: 0.5rem;
     display: block;
     white-space: nowrap;
     overflow: hidden;

@@ -207,9 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const parsedUrl = new URL(result.url);
             const displayUrl = `${parsedUrl.hostname}${parsedUrl.pathname !== '/' ? parsedUrl.pathname : ''}`;
+            const domain = parsedUrl.hostname;
+            const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
 
             card.innerHTML = `
-                <span class="result-url">${escapeHTML(displayUrl)}</span>
+                <div class="result-header">
+                    <img src="${faviconUrl}" alt="${domain} favicon" class="result-favicon" onerror="this.style.display='none'">
+                    <span class="result-url">${escapeHTML(displayUrl)}</span>
+                </div>
                 <h3 class="result-title"><a href="${escapeHTML(result.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(result.title)}</a></h3>
                 <p class="result-snippet">${escapeHTML(result.content || result.snippet || '')}</p>
             `;

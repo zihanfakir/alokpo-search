@@ -53,9 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debounceTimer = setTimeout(async () => {
             try {
-                // Fetching suggestions directly from your own SearXNG backend (more reliable)
+                // Fetching suggestions directly from your own SearXNG backend
                 const res = await fetch(`${BACKEND_URL}/autocompleter?q=${encodeURIComponent(query)}`);
-                const suggestions = await res.json();
+                const data = await res.json();
+                
+                let suggestions = [];
+                // SearXNG returns data in Google's format: [ "query", ["sug1", "sug2"...] ]
+                if (Array.isArray(data) && data.length > 1 && Array.isArray(data[1])) {
+                    suggestions = data[1];
+                } else if (Array.isArray(data)) {
+                    suggestions = data; // Fallback if format differs
+                }
                 
                 if (suggestions.length > 0) {
                     renderSuggestions(suggestions);

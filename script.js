@@ -105,14 +105,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    searchForm.addEventListener('submit', (e) => {
+    searchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const query = searchInput.value.trim();
         if (!query) return;
 
-        // Redirect directly to Google
-        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        // Adjust UI state for full-page layout
+        document.body.classList.add('searched');
+        resultsContainer.innerHTML = '';
+        loader.classList.remove('hidden');
+
+        try {
+            // Use allorigins to bypass CORS and scrape DuckDuckGo HTML Lite version for real web results!
+            const ddgUrl = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(ddgUrl)}`;
+            
+            const response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error("Search failed");
+            
+            const proxyData = await response.json();
+            const htmlString = proxyData.contents;
+            
+            // Parse the HTML response
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlString, 'text/html');
+            
+            // Extract search results from DuckDuckGo HTML structure
+            const resultElements = doc.querySelectorAll('.result');
+            const results = [];
+            
+            resultElements.forEach(el => {
+                const titleEl = el.querySelector('.result__title .result__a');
+                const snippetEl = el.querySelector('.result__snippet');
+                
+                if (titleEl && snippetEl) {
+                    let rawUrl = titleEl.getAttribute('href');
+                    // DuckDuckGo redirects links via /l/?uddg=..., so we decode the real URL
+                    if (rawUrl && rawUrl.includes('uddg=')) {
+                        const urlParams = new URLSearchParams(rawUrl.split('?')[1]);
+                        rawUrl = decodeURIComponent(urlParams.get('uddg'));
+                    } else if (rawUrl && rawUrl.startsWith('//')) {
+                         rawUrl = 'https:' + rawUrl;
+                    }
+                    
+                    results.push({
+                        title: titleEl.textContent.trim(),
+                        url: rawUrl,
+                        content: snippetEl.textContent.trim()
+                    });
+                }
+            });
+
+            loader.classList.add('hidden');
+            renderResults(results);
+
+        } catch (error) {
+            loader.classList.add('hidden');
+            console.error('Search error:', error);
+            resultsContainer.innerHTML = `
+                <div class="error-message">
+                    <h3>Oops! Something went wrong.</h3>
+                    <p>${error.message}</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">Failed to fetch web results. Please try again later.</p>
+                </div>
+            `;
+        }
     });
 
     function renderResults(results) {

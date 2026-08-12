@@ -98,9 +98,9 @@ body {
 .main-logo {
     max-width: 100%;
     height: auto;
-    max-height: 550px;
-    margin-top: -180px;
-    margin-bottom: -230px;
+    max-height: 150px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     display: inline-block;
     mix-blend-mode: screen;
 }

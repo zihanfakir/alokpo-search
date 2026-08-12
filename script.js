@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         debounceTimer = setTimeout(async () => {
             try {
-                // Fetching from Wikipedia opensearch API for reliable cross-origin autocomplete
-                const res = await fetch(`https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=8&namespace=0&format=json&origin=*`);
+                // Fetching from Google Suggest API via corsproxy for accurate Google autocomplete
+                const res = await fetch(`https://corsproxy.io/?https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}`);
                 const data = await res.json();
                 const suggestions = data[1];
                 
@@ -105,79 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    searchForm.addEventListener('submit', async (e) => {
+    searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const query = searchInput.value.trim();
         if (!query) return;
 
-        // Adjust UI state for full-page layout
-        document.body.classList.add('searched');
-        resultsContainer.innerHTML = '';
-        loader.classList.remove('hidden');
-
-        try {
-            // Fallback to Wikipedia Search API so the search engine actually works without setting up a backend!
-            if (BACKEND_URL.includes('YOUR-APP-NAME')) {
-                const wikiRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&utf8=&format=json&origin=*`);
-                if (!wikiRes.ok) throw new Error("Wikipedia API failed");
-                const wikiData = await wikiRes.json();
-                
-                let results = wikiData.query.search.map(item => ({
-                    title: item.title,
-                    url: `https://en.wikipedia.org/?curid=${item.pageid}`,
-                    content: item.snippet.replace(/<\/?[^>]+(>|$)/g, "") // strip HTML tags
-                }));
-                
-                // If Wikipedia finds nothing, show some smart mock results so it still looks like a working search engine
-                if (results.length === 0) {
-                    results = [
-                        {
-                            title: `${query} - Official Site`,
-                            url: `https://www.${query.replace(/\s+/g, '').toLowerCase()}.com`,
-                            content: `Welcome to the official page for ${query}. Find the latest news, updates, and information right here.`
-                        },
-                        {
-                            title: `Everything you need to know about ${query}`,
-                            url: `https://blog.alokpo.com/search/${encodeURIComponent(query)}`,
-                            content: `An in-depth look at ${query}. We explore the history, the impact, and what the future holds for it.`
-                        },
-                        {
-                            title: `${query} - Wikipedia`,
-                            url: `https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(query)}`,
-                            content: `Search results for ${query} on Wikipedia. Read full articles and discover more.`
-                        }
-                    ];
-                }
-                
-                loader.classList.add('hidden');
-                renderResults(results);
-                return;
-            }
-
-            // Fetch results from SearXNG backend
-            const response = await fetch(`${BACKEND_URL}/search?q=${encodeURIComponent(query)}&format=json`);
-            
-            if (!response.ok) {
-                throw new Error(`Server returned status: ${response.status}. Please check CORS settings on your Render backend.`);
-            }
-
-            const data = await response.json();
-            
-            loader.classList.add('hidden');
-            renderResults(data.results);
-
-        } catch (error) {
-            loader.classList.add('hidden');
-            console.error('Search error:', error);
-            resultsContainer.innerHTML = `
-                <div class="error-message">
-                    <h3>Oops! Something went wrong.</h3>
-                    <p>${error.message}</p>
-                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">Did you configure <strong>SEARXNG_URL</strong> and <strong>CORS</strong> correctly on your Render backend?</p>
-                </div>
-            `;
-        }
+        // Redirect directly to Google
+        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     });
 
     function renderResults(results) {

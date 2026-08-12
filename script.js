@@ -111,8 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const query = searchInput.value.trim();
         if (!query) return;
 
-        // Adjust UI state
-        header.classList.add('searched');
+        // Adjust UI state for full-page layout
+        document.body.classList.add('searched');
         resultsContainer.innerHTML = '';
         loader.classList.remove('hidden');
 

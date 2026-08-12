@@ -83,16 +83,33 @@ body {
     min-height: 100vh;
 }
 
+/* Grid layout for search results page (Bing style) */
+body.searched .container {
+    display: grid;
+    max-width: 1200px;
+    grid-template-columns: 140px 1fr;
+    grid-template-areas: 
+        "logo search"
+        ". results";
+    gap: 1rem 2rem;
+    align-items: start;
+    padding-top: 1rem;
+}
+
 /* Header & Logo */
 .header {
     text-align: center;
     margin-top: 10vh;
     margin-bottom: 0;
-    transition: margin-top 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }
 
-.header.searched {
-    margin-top: 1rem;
+body.searched .header {
+    grid-area: logo;
+    margin-top: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
 }
 
 .main-logo {
@@ -103,6 +120,12 @@ body {
     margin-bottom: -10rem;
     display: inline-block;
     mix-blend-mode: screen;
+    transition: all 0.4s ease-in-out;
+}
+
+body.searched .main-logo {
+    margin-bottom: 0;
+    max-width: 100%; /* fills the 140px grid column */
 }
 
 .subtitle {
@@ -113,7 +136,19 @@ body {
 .search-section {
     width: 100%;
     margin-bottom: 2rem;
+    transition: all 0.4s ease-in-out;
 }
+
+body.searched .search-section {
+    grid-area: search;
+    max-width: 650px;
+    margin-bottom: 0;
+}
+
+body.searched #resultsContainer {
+    grid-area: results;
+}
+
 
 .search-box {
     display: flex;

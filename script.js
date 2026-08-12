@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (theme === 'dark') {
             themeIconSun.classList.add('hidden');
             themeIconMoon.classList.remove('hidden');
-            if (mainLogo) mainLogo.src = 'dark_mod.svg';
+            if (mainLogo) mainLogo.src = '2.svg';
         } else {
             themeIconSun.classList.remove('hidden');
             themeIconMoon.classList.add('hidden');
-            if (mainLogo) mainLogo.src = 'light_mod.svg';
+            if (mainLogo) mainLogo.src = '1.svg';
         }
     }
 

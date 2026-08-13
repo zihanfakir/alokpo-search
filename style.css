@@ -123,8 +123,8 @@ body.searched .container {
 /* Header & Logo */
 .header {
     text-align: center;
-    margin-top: 10vh;
-    margin-bottom: 0;
+    margin-top: 8vh;
+    margin-bottom: 1.5rem;
     transition: all 0.4s ease-in-out;
 }
 
@@ -132,6 +132,7 @@ body.searched .header {
     grid-column: 1;
     grid-row: 1;
     margin-top: 0;
+    margin-bottom: 0;
     text-align: right;
     display: flex;
     align-items: center;
@@ -140,12 +141,12 @@ body.searched .header {
 }
 
 .main-logo {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    margin-top: 0;
-    margin-bottom: -10rem;
-    display: inline-block;
+    width: auto;
+    max-width: 320px;
+    max-height: 100px;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
     mix-blend-mode: screen;
     transition: all 0.4s ease-in-out;
 }
@@ -153,6 +154,7 @@ body.searched .header {
 body.searched .main-logo {
     margin-bottom: 0;
     max-width: 140px; 
+    max-height: 50px;
 }
 
 /* Search Box */
@@ -517,13 +519,14 @@ body.searched #loader {
     
     /* Home page mobile */
     .header {
-        margin-top: 15vh;
-        margin-bottom: 0;
+        margin-top: 10vh;
+        margin-bottom: 1rem;
     }
     
     .main-logo {
-        max-width: 70%;
-        margin-bottom: -2rem;
+        max-width: 220px;
+        max-height: 70px;
+        margin: 0 auto;
     }
     
     /* Searched layout mobile */
@@ -542,7 +545,8 @@ body.searched #loader {
     }
     
     body.searched .main-logo {
-        max-width: 120px;
+        max-width: 110px;
+        max-height: 40px;
         margin-bottom: 0;
     }
     
@@ -558,7 +562,9 @@ body.searched #loader {
     }
     
     body.searched #loader {
-        margin-top: 1rem;
+        align-self: center;
+        margin-top: 2rem;
+        width: 100%;
     }
 }
 

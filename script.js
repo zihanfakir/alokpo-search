@@ -17,11 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTheme(currentTheme);
 
     themeToggle.addEventListener('click', () => {
+        if (!document.startViewTransition) {
+            switchTheme();
+            return;
+        }
+
+        document.documentElement.classList.add('transition-theme');
+        const transition = document.startViewTransition(switchTheme);
+        
+        transition.finished.finally(() => {
+            document.documentElement.classList.remove('transition-theme');
+        });
+    });
+
+    function switchTheme() {
         currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', currentTheme);
         localStorage.setItem('theme', currentTheme);
         updateTheme(currentTheme);
-    });
+    }
 
     function updateTheme(theme) {
         if (theme === 'dark') {

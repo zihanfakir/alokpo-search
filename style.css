@@ -23,7 +23,8 @@
 }
 
 [data-theme="light"] .main-logo {
-    mix-blend-mode: multiply;
+    mix-blend-mode: normal;
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.5));
 }
 
 /* Theme Toggle */
@@ -517,4 +518,31 @@ body.searched #loader {
         grid-column: 1;
         grid-row: 3;
     }
+}
+
+/* Theme View Transition */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+.transition-theme::view-transition-new(root) {
+  animation: wipe-in 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+@keyframes wipe-in {
+  from {
+    clip-path: circle(0% at 100% 0%);
+  }
+  to {
+    clip-path: circle(150% at 100% 0%);
+  }
 }

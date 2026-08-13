@@ -157,7 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function hideSuggestions() {
+        clearTimeout(debounceTimer);
         suggestionsBox.classList.add('hidden');
+        suggestionsBox.innerHTML = '';
         currentSuggestions = [];
         currentSuggestionIndex = -1;
     }

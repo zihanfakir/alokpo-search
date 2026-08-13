@@ -23,10 +23,10 @@
 }
 
 .main-logo {
-    width: 260px;
+    width: 280px;
     height: auto;
     max-width: 85vw;
-    margin: 0 auto;
+    margin: 0 auto -4.5rem auto;
     display: block;
     cursor: pointer;
     transition: transform 0.3s ease, filter 0.3s ease;
@@ -140,7 +140,7 @@ body.searched .container {
 /* Header & Logo */
 .header {
     text-align: center;
-    margin-top: 22vh;
+    margin-top: 14vh;
     margin-bottom: 0;
     transition: all 0.4s ease-in-out;
 }
@@ -529,14 +529,14 @@ body.searched .footer {
     
     /* Home page mobile */
     .header {
-        margin-top: 18vh;
-        margin-bottom: 1rem;
+        margin-top: 10vh;
+        margin-bottom: 0;
     }
     
     .main-logo {
-        width: 220px;
-        max-width: 75vw;
-        margin: 0 auto;
+        width: 240px;
+        max-width: 80vw;
+        margin: 0 auto -3.5rem auto;
     }
     
     .quick-chips {

@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Copy Protection
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('cut', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && ['c','u','s','a'].includes(e.key.toLowerCase())) {
+            if (e.key.toLowerCase() !== 'a' || document.activeElement !== document.getElementById('searchInput')) {
+                e.preventDefault();
+            }
+        }
+        if (e.key === 'F12') e.preventDefault();
+    });
+    document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
     const resultsContainer = document.getElementById('resultsContainer');

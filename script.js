@@ -176,6 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function performSearch(query) {
+        // Hide suggestions immediately
+        hideSuggestions();
         // Adjust UI state for full-page layout
         document.body.classList.add('searched');
         resultsContainer.innerHTML = '';

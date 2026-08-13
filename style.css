@@ -23,8 +23,8 @@
 }
 
 [data-theme="light"] .main-logo {
-    mix-blend-mode: normal;
-    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.4));
+    mix-blend-mode: multiply;
+    filter: invert(1) hue-rotate(180deg);
 }
 
 /* Theme Toggle */

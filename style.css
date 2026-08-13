@@ -24,7 +24,7 @@
 
 [data-theme="light"] .main-logo {
     mix-blend-mode: multiply;
-    filter: invert(1) hue-rotate(180deg);
+    filter: none;
 }
 
 /* Theme Toggle */
@@ -145,7 +145,7 @@ body.searched .header {
     width: 320px;
     height: auto;
     max-width: 85vw;
-    margin: 0 auto -5.5rem auto;
+    margin: 0 auto -3rem auto;
     display: block;
     mix-blend-mode: screen;
     cursor: pointer;
@@ -524,14 +524,14 @@ body.searched .footer {
     
     /* Home page mobile */
     .header {
-        margin-top: 14vh;
+        margin-top: 8vh;
         margin-bottom: 0;
     }
     
     .main-logo {
         width: 240px;
         max-width: 80vw;
-        margin: 0 auto -3.8rem auto;
+        margin: 0 auto -2rem auto;
     }
     
     .quick-chips {

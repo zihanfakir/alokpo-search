@@ -58,13 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
             themeIconSun.classList.add('theme-icon-hidden');
             themeIconMoon.classList.remove('theme-icon-hidden');
             themeIconMoon.classList.add('theme-icon-visible');
+            if (mainLogo) mainLogo.src = '2.svg';
         } else {
             themeIconSun.classList.remove('theme-icon-hidden');
             themeIconSun.classList.add('theme-icon-visible');
             themeIconMoon.classList.remove('theme-icon-visible');
             themeIconMoon.classList.add('theme-icon-hidden');
+            if (mainLogo) mainLogo.src = '1.svg';
         }
-        if (mainLogo) mainLogo.src = '2.svg';
     }
 
     // Logo Click -> Return to Home Page

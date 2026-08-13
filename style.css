@@ -485,6 +485,16 @@ body.searched #loader {
         font-size: 2.5rem;
     }
     
+    /* Home page mobile fixes */
+    .header {
+        margin-top: 5vh;
+    }
+    
+    .main-logo {
+        max-width: 85%;
+        margin-bottom: -4rem;
+    }
+    
     /* Mobile styles for searched layout */
     body.searched .container {
         grid-template-columns: 1fr;

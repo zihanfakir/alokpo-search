@@ -201,15 +201,13 @@ body.searched #loader {
     left: 0;
     right: 0;
     margin-top: 0.5rem;
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     list-style: none;
     padding: 0.5rem 0;
-    z-index: 100;
+    z-index: 500;
     max-height: 50vh;
     overflow-y: auto;
     -ms-overflow-style: none;  /* IE and Edge */

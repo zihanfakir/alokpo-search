@@ -487,18 +487,34 @@ body.searched #loader {
     /* Mobile styles for searched layout */
     body.searched .container {
         grid-template-columns: 1fr;
-        grid-template-areas: 
-            "logo"
-            "search"
-            "results";
         padding: 1rem;
         gap: 1rem;
     }
+    
     body.searched .header {
+        grid-column: 1;
+        grid-row: 1;
         justify-content: center;
         text-align: center;
     }
+    
     body.searched .main-logo {
         max-width: 120px;
+    }
+    
+    body.searched .search-section {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: center;
+    }
+    
+    body.searched .results-container {
+        grid-column: 1;
+        grid-row: 3;
+    }
+    
+    body.searched #loader {
+        grid-column: 1;
+        grid-row: 3;
     }
 }

@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('searched');
         resultsContainer.innerHTML = '';
         searchInput.value = '';
+        document.title = 'Alokpo';
         toggleClearBtn();
         hideSuggestions();
         window.scrollTo({ top: 0, behavior: 'smooth' });

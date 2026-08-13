@@ -11,7 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (e.key === 'F12') e.preventDefault();
     });
-    document.addEventListener('dragstart', e => { if (e.target.tagName === 'IMG') e.preventDefault(); });
+    document.addEventListener('dragstart', e => { 
+        if (e.target.tagName === 'IMG' || e.target.tagName === 'SVG' || e.target.closest('button') || e.target.closest('.theme-toggle')) {
+            e.preventDefault();
+        }
+    });
 
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');

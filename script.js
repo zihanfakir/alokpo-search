@@ -15,17 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
     const resultsContainer = document.getElementById('resultsContainer');
     const loader = document.getElementById('loader');
     const header = document.querySelector('.header');
+    const mainLogo = document.getElementById('mainLogo');
+    const quickChips = document.getElementById('quickChips');
     
     // Theme Toggle Logic
     const themeToggle = document.getElementById('themeToggle');
     const themeIconSun = document.getElementById('themeIconSun');
     const themeIconMoon = document.getElementById('themeIconMoon');
-    const mainLogo = document.getElementById('mainLogo');
     
-    // Check local storage for theme, default to dark
     let currentTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', currentTheme);
     updateTheme(currentTheme);
@@ -67,6 +68,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Logo Click -> Return to Home Page
+    mainLogo.addEventListener('click', () => {
+        document.body.classList.remove('searched');
+        resultsContainer.innerHTML = '';
+        searchInput.value = '';
+        toggleClearBtn();
+        hideSuggestions();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Clear Button Logic
+    function toggleClearBtn() {
+        if (searchInput.value.trim().length > 0) {
+            clearBtn.classList.remove('hidden');
+        } else {
+            clearBtn.classList.add('hidden');
+        }
+    }
+
+    clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        toggleClearBtn();
+        hideSuggestions();
+        searchInput.focus();
+    });
+
+    // Quick Chips Listener
+    if (quickChips) {
+        quickChips.addEventListener('click', (e) => {
+            const chip = e.target.closest('.chip');
+            if (chip) {
+                const query = chip.getAttribute('data-query');
+                if (query) {
+                    searchInput.value = query;
+                    toggleClearBtn();
+                    performSearch(query);
+                }
+            }
+        });
+    }
+
     const BACKEND_URL = 'https://alokpo-backend.onrender.com';
     
     // Suggestions Logic
@@ -79,7 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.trim();
+        toggleClearBtn();
         clearTimeout(debounceTimer);
+        
         if (autocompleteController) {
             autocompleteController.abort();
             autocompleteController = null;
@@ -141,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const selectedText = currentSuggestions[currentSuggestionIndex];
             searchInput.value = selectedText;
+            toggleClearBtn();
             hideSuggestions();
             performSearch(selectedText);
         }
@@ -149,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateSuggestionHighlight(items) {
         items.forEach((item, index) => {
             if (index === currentSuggestionIndex) {
-                item.style.background = 'rgba(100, 100, 100, 0.2)'; // highlight color
+                item.style.background = 'rgba(100, 100, 100, 0.2)';
                 item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             } else {
                 item.style.background = 'transparent';
@@ -180,11 +225,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             li.addEventListener('mousedown', (e) => {
-                e.preventDefault(); // Prevent input blur before click
+                e.preventDefault();
             });
 
             li.addEventListener('click', () => {
                 searchInput.value = sug;
+                toggleClearBtn();
                 hideSuggestions();
                 performSearch(sug);
             });
@@ -222,7 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isSearchExecuting = true;
         searchInput.blur();
         hideSuggestions();
-        // Adjust UI state for full-page layout
         document.body.classList.add('searched');
         resultsContainer.innerHTML = '';
         loader.classList.remove('hidden');
@@ -242,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             loader.classList.add('hidden');
-            renderResults(data.results);
+            renderResults(data.results, query);
 
         } catch (error) {
             loader.classList.add('hidden');
@@ -261,11 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function renderResults(results) {
+    function renderResults(results, query) {
         if (!results || results.length === 0) {
             resultsContainer.innerHTML = `
                 <div class="result-card">
-                    <p style="text-align: center; color: var(--text-muted);">No results found for your query.</p>
+                    <p style="text-align: center; color: var(--text-muted);">No results found for "${escapeHTML(query)}".</p>
                 </div>
             `;
             return;
@@ -273,10 +318,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fragment = document.createDocumentFragment();
 
+        // Optional Stats Line
+        const stats = document.createElement('div');
+        stats.className = 'results-stats';
+        stats.textContent = `Found ${results.length} results for "${query}"`;
+        fragment.appendChild(stats);
+
         results.forEach((result, index) => {
             const card = document.createElement('div');
             card.className = 'result-card';
-            card.style.animationDelay = `${index * 0.05}s`;
+            card.style.animationDelay = `${index * 0.04}s`;
 
             try {
                 const parsedUrl = new URL(result.url);

@@ -151,10 +151,10 @@ body.searched .header {
 }
 
 .main-logo {
-    width: 320px;
+    width: 260px;
     height: auto;
     max-width: 85vw;
-    margin: 0 auto -3rem auto;
+    margin: 0 auto;
     display: block;
     mix-blend-mode: screen;
     cursor: pointer;
@@ -533,14 +533,14 @@ body.searched .footer {
     
     /* Home page mobile */
     .header {
-        margin-top: 8vh;
-        margin-bottom: 0;
+        margin-top: 10vh;
+        margin-bottom: 1rem;
     }
     
     .main-logo {
-        width: 240px;
-        max-width: 80vw;
-        margin: 0 auto -2rem auto;
+        width: 220px;
+        max-width: 75vw;
+        margin: 0 auto;
     }
     
     .quick-chips {

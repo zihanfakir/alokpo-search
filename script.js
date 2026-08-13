@@ -74,21 +74,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let debounceTimer;
     let currentSuggestionIndex = -1;
     let currentSuggestions = [];
+    let autocompleteController = null;
+    let isSearchExecuting = false;
     
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.trim();
         clearTimeout(debounceTimer);
+        if (autocompleteController) {
+            autocompleteController.abort();
+            autocompleteController = null;
+        }
         
-        if (query.length === 0) {
+        if (query.length === 0 || isSearchExecuting) {
             hideSuggestions();
             return;
         }
 
         debounceTimer = setTimeout(async () => {
+            if (isSearchExecuting) return;
+            autocompleteController = new AbortController();
+            
             try {
-                const res = await fetch(`${BACKEND_URL}/autocompleter?q=${encodeURIComponent(query)}`);
+                const res = await fetch(`${BACKEND_URL}/autocompleter?q=${encodeURIComponent(query)}`, {
+                    signal: autocompleteController.signal
+                });
                 const data = await res.json();
                 
+                if (isSearchExecuting) return;
+
                 let suggestions = [];
                 if (Array.isArray(data) && data.length > 1 && Array.isArray(data[1])) {
                     suggestions = data[1];
@@ -96,14 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     suggestions = data;
                 }
                 
-                if (suggestions.length > 0) {
+                if (suggestions.length > 0 && !isSearchExecuting) {
                     renderSuggestions(suggestions);
                 } else {
                     hideSuggestions();
                 }
             } catch (err) {
-                console.error('Error fetching suggestions:', err);
-                hideSuggestions();
+                if (err.name !== 'AbortError') {
+                    console.error('Error fetching suggestions:', err);
+                    hideSuggestions();
+                }
             }
         }, 150);
     });
@@ -135,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
         items.forEach((item, index) => {
             if (index === currentSuggestionIndex) {
                 item.style.background = 'rgba(100, 100, 100, 0.2)'; // highlight color
-                // ensure it's scrolled into view
                 item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             } else {
                 item.style.background = 'transparent';
@@ -144,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderSuggestions(suggestions) {
+        if (isSearchExecuting) return;
         currentSuggestions = suggestions;
         currentSuggestionIndex = -1;
         suggestionsBox.innerHTML = '';
@@ -164,6 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSuggestionHighlight(suggestionsBox.querySelectorAll('.suggestion-item'));
             });
             
+            li.addEventListener('mousedown', (e) => {
+                e.preventDefault(); // Prevent input blur before click
+            });
+
             li.addEventListener('click', () => {
                 searchInput.value = sug;
                 hideSuggestions();
@@ -176,6 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function hideSuggestions() {
         clearTimeout(debounceTimer);
+        if (autocompleteController) {
+            autocompleteController.abort();
+            autocompleteController = null;
+        }
         suggestionsBox.classList.add('hidden');
         suggestionsBox.innerHTML = '';
         currentSuggestions = [];
@@ -196,7 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function performSearch(query) {
-        // Hide suggestions immediately
+        isSearchExecuting = true;
+        searchInput.blur();
         hideSuggestions();
         // Adjust UI state for full-page layout
         document.body.classList.add('searched');
@@ -232,6 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p>${escapeHTML(msg)}</p>
                 </div>
             `;
+        } finally {
+            isSearchExecuting = false;
         }
     }
 

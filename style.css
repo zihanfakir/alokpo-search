@@ -548,6 +548,23 @@ body.searched .footer {
         padding: 0.35rem 0.75rem;
     }
     
+    .suggestions-box {
+        max-height: 40vh;
+        border-radius: 16px;
+        padding: 0.35rem 0;
+    }
+    
+    .suggestion-item {
+        padding: 0.55rem 0.9rem;
+        font-size: 0.88rem;
+    }
+    
+    .suggestion-icon {
+        width: 14px;
+        height: 14px;
+        margin-right: 8px;
+    }
+    
     /* Searched layout mobile */
     body.searched .container {
         display: flex;

@@ -213,11 +213,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSuggestions(suggestions) {
         if (isSearchExecuting) return;
-        currentSuggestions = suggestions;
+        
+        // Limit suggestions count so all fit on mobile screen without scrolling
+        const maxCount = window.innerWidth <= 600 ? 5 : 8;
+        const limitedSuggestions = suggestions.slice(0, maxCount);
+        
+        currentSuggestions = limitedSuggestions;
         currentSuggestionIndex = -1;
         suggestionsBox.innerHTML = '';
         
-        suggestions.forEach((sug, index) => {
+        limitedSuggestions.forEach((sug, index) => {
             const li = document.createElement('li');
             li.className = 'suggestion-item';
             li.innerHTML = `

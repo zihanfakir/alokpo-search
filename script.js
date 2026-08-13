@@ -17,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Dynamic Copyright Year
+    const currentYearEl = document.getElementById('currentYear');
+    if (currentYearEl) {
+        currentYearEl.textContent = new Date().getFullYear();
+    }
+
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearBtn');

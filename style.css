@@ -68,12 +68,6 @@
     transform: rotate(0deg) scale(1);
 }
 
-.theme-toggle img {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -114,7 +108,7 @@ body {
     min-height: 100vh;
 }
 
-/* Grid layout for search results page (Bing style) */
+/* Grid layout for search results page */
 body.searched .container {
     display: grid;
     max-width: 1200px;
@@ -161,8 +155,7 @@ body.searched .main-logo {
     max-width: 140px; 
 }
 
-
-/* Search Box (Glassmorphism) */
+/* Search Box */
 .search-section {
     position: relative;
     width: 100%;
@@ -195,7 +188,6 @@ body.searched #loader {
     justify-self: center;
     margin-top: 2rem;
 }
-
 
 .search-box {
     width: 100%;
@@ -240,12 +232,12 @@ body.searched #loader {
     z-index: 500;
     max-height: 50vh;
     overflow-y: auto;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .suggestions-box::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
 }
 
 .suggestions-box.hidden {
@@ -282,6 +274,7 @@ body.searched #loader {
     padding: 0.75rem 1rem;
     outline: none;
     font-family: inherit;
+    min-width: 0;
 }
 
 #searchInput::placeholder {
@@ -299,6 +292,7 @@ body.searched #loader {
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
+    flex-shrink: 0;
 }
 
 .search-button:hover {
@@ -496,29 +490,43 @@ body.searched #loader {
     background: var(--primary-hover);
 }
 
-/* Responsive */
+/* ========== MOBILE ========== */
 @media (max-width: 768px) {
-    .search-box {
-        padding: 0.25rem 0.25rem 0.25rem 1rem;
-    }
-    #searchInput {
-        font-size: 1rem;
-    }
-    .search-button {
-        padding: 0.6rem 1rem;
+    body {
+        overflow-x: hidden;
     }
     
-    /* Home page mobile fixes */
+    .container {
+        padding: 1.5rem 1rem;
+        overflow: hidden;
+    }
+    
+    .search-box {
+        padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    }
+    
+    #searchInput {
+        font-size: 0.95rem;
+        padding: 0.6rem 0.5rem;
+    }
+    
+    .search-button {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Home page mobile */
     .header {
-        margin-top: 5vh;
+        margin-top: 15vh;
+        margin-bottom: 0;
     }
     
     .main-logo {
-        max-width: 85%;
-        margin-bottom: -4rem;
+        max-width: 70%;
+        margin-bottom: -2rem;
     }
     
-    /* Mobile styles for searched layout */
+    /* Searched layout mobile */
     body.searched .container {
         display: flex;
         flex-direction: column;
@@ -557,26 +565,26 @@ body.searched #loader {
 /* Theme View Transition */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
+    animation: none;
+    mix-blend-mode: normal;
 }
 
 ::view-transition-old(root) {
-  z-index: 1;
+    z-index: 1;
 }
 ::view-transition-new(root) {
-  z-index: 2;
+    z-index: 2;
 }
 
 .transition-theme::view-transition-new(root) {
-  animation: wipe-in 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+    animation: wipe-in 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
 @keyframes wipe-in {
-  from {
-    clip-path: circle(0% at 100% 0%);
-  }
-  to {
-    clip-path: circle(150% at 100% 0%);
-  }
+    from {
+        clip-path: circle(0% at 100% 0%);
+    }
+    to {
+        clip-path: circle(150% at 100% 0%);
+    }
 }

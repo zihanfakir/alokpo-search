@@ -131,9 +131,6 @@ body.searched .main-logo {
     max-width: 140px; 
 }
 
-.subtitle {
-    display: none;
-}
 
 /* Search Box (Glassmorphism) */
 .search-section {
@@ -481,9 +478,6 @@ body.searched #loader {
     }
     .search-button {
         padding: 0.6rem 1rem;
-    }
-    .logo {
-        font-size: 2.5rem;
     }
     
     /* Home page mobile fixes */

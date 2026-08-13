@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching suggestions:', err);
                 hideSuggestions();
             }
-        }, 300);
+        }, 150);
     });
 
     // Keyboard navigation for suggestions
@@ -182,7 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.classList.remove('hidden');
 
         try {
-            const response = await fetch(`${BACKEND_URL}/search?q=${encodeURIComponent(query)}&format=json`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+            const response = await fetch(`${BACKEND_URL}/search?q=${encodeURIComponent(query)}&format=json`, {
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
             
             if (!response.ok) {
                 throw new Error(`Server returned status: ${response.status}. Please check CORS settings on your Render backend.`);
@@ -195,10 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             loader.classList.add('hidden');
             console.error('Search error:', error);
+            const msg = error.name === 'AbortError' 
+                ? 'Search timed out. The server may be waking up — please try again in a few seconds.' 
+                : error.message;
             resultsContainer.innerHTML = `
                 <div class="error-message">
                     <h3>Oops! Something went wrong.</h3>
-                    <p>${escapeHTML(error.message)}</p>
+                    <p>${escapeHTML(msg)}</p>
                 </div>
             `;
         }

@@ -124,8 +124,8 @@ body.searched .container {
 /* Header & Logo */
 .header {
     text-align: center;
-    margin-top: 10vh;
-    margin-bottom: 2rem;
+    margin-top: 14vh;
+    margin-bottom: 0;
     transition: all 0.4s ease-in-out;
 }
 
@@ -145,7 +145,7 @@ body.searched .header {
     width: 320px;
     height: auto;
     max-width: 85vw;
-    margin: 0 auto;
+    margin: 0 auto -5.5rem auto;
     display: block;
     mix-blend-mode: screen;
     cursor: pointer;
@@ -524,13 +524,14 @@ body.searched .footer {
     
     /* Home page mobile */
     .header {
-        margin-top: 12vh;
-        margin-bottom: 1.5rem;
+        margin-top: 14vh;
+        margin-bottom: 0;
     }
     
     .main-logo {
         width: 240px;
         max-width: 80vw;
+        margin: 0 auto -3.8rem auto;
     }
     
     .quick-chips {

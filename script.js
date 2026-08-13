@@ -39,12 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateTheme(theme) {
         if (theme === 'dark') {
-            themeIconSun.classList.add('hidden');
-            themeIconMoon.classList.remove('hidden');
+            themeIconSun.classList.remove('theme-icon-visible');
+            themeIconSun.classList.add('theme-icon-hidden');
+            themeIconMoon.classList.remove('theme-icon-hidden');
+            themeIconMoon.classList.add('theme-icon-visible');
             if (mainLogo) mainLogo.src = '2.svg';
         } else {
-            themeIconSun.classList.remove('hidden');
-            themeIconMoon.classList.add('hidden');
+            themeIconSun.classList.remove('theme-icon-hidden');
+            themeIconSun.classList.add('theme-icon-visible');
+            themeIconMoon.classList.remove('theme-icon-visible');
+            themeIconMoon.classList.add('theme-icon-hidden');
             if (mainLogo) mainLogo.src = '1.svg';
         }
     }
